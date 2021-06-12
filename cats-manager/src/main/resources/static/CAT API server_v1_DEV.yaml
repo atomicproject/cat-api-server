@@ -1,0 +1,461 @@
+swagger: "2.0"
+info:
+  description: "This is an API solution for Cat server."
+  version: "1.0.0"
+  title: "Swagger Cat Operation"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:9091"
+basePath: "/cats-api/v1"
+
+schemes:
+- "http"
+paths:
+  /cat:
+    post:
+      tags:
+      - "cat"
+      summary: "Create cat"
+      description: "This allow the creation of a new Cat"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created cat object"
+        required: true
+        schema:
+          $ref: "#/definitions/cat"
+      responses:
+        default:
+          description: "successful operation"
+  /cat/upload:
+    post:
+      tags:
+      - "cat"
+      summary: "uploads data from csv file"
+      description: ""
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "file"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: "Please upload a valid csv file"
+        "417":
+          description: "The file upload has failed !"
+  /cat/findAllWithPagination:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats with pagination"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "size"
+        in: "query"
+        description: "The array size, by default = 5"
+        required: false
+        type: "number"
+      - name: "page"
+        in: "query"
+        description: "The array page, by default = 0"
+        required: false
+        type: "number"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+  /cat/findByRace:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats by race"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "race"
+        in: "query"
+        description: "the cat race"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+  /cat/findByPrice:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats by price"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "price"
+        in: "query"
+        description: "the cat price"
+        required: true
+        type: "number"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid price"
+        "404":
+          description: "cat not found"
+  /cat/findByPrice/greaterThan:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats having a greater price"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "price"
+        in: "query"
+        description: "the cat price"
+        required: true
+        type: "number"
+        
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid price"
+        "404":
+          description: "cat not found"
+  /cat/findByPrice/lessThan:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats having a less price"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "price"
+        in: "query"
+        description: "the cat price"
+        required: true
+        type: "number"
+        
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid price"
+        "404":
+          description: "cat not found"
+  
+  /cat/findByPrice/between:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats having a price between two prices"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "minPrice"
+        in: "query"
+        description: "the min cat price"
+        required: true
+        type: "number"
+      - name: "maxPrice"
+        in: "query"
+        description: "the max cat price"
+        required: true
+        type: "number"
+        
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid price"
+        "404":
+          description: "cat not found"
+  /cat/findByAge:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats by age"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "age"
+        in: "query"
+        description: "the cat age"
+        required: true
+        type: "number"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid age"
+        "404":
+          description: "cat not found"
+  /cat/findByAge/olderThan:
+    get:
+      tags:
+      - "cat"
+      summary: "Get older cats"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "age"
+        in: "query"
+        description: "the cat age"
+        required: true
+        type: "number"
+        
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid age"
+        "404":
+          description: "cat not found"
+  /cat/findByAge/youngerThan:
+    get:
+      tags:
+      - "cat"
+      summary: "Get younger cats"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "age"
+        in: "query"
+        description: "the cat age"
+        required: true
+        type: "number"
+        
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid age"
+        "404":
+          description: "cat not found"
+  
+  /cat/findByAge/between:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cats having a age between two ages"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "minAge"
+        in: "query"
+        description: "the min cat age"
+        required: true
+        type: "number"
+      - name: "maxAge"
+        in: "query"
+        description: "the max cat age"
+        required: true
+        type: "number"
+        
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/cat"
+        "500":
+          description: "Internal server error"
+        "400":
+          description: "Invalid age"
+        "404":
+          description: "cat not found"    
+  /cat/{id}:
+    get:
+      tags:
+      - "cat"
+      summary: "Get cat by cat id"
+      description: ""
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id that needs to be fetched."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/cat"
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "cat not found"
+    put:
+      tags:
+      - "cat"
+      summary: "Update an existing cat"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "cat id that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated cat object"
+        required: true
+        schema:
+          $ref: "#/definitions/cat"
+      responses:
+        "400":
+          description: "Invalid cat supplied"
+        "404":
+          description: "cat not found"
+    delete:
+      tags:
+      - "cat"
+      summary: "Delete cat"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id that needs to be deleted"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid id supplied"
+        "404":
+          description: "cat not found"
+
+definitions:
+  
+  cat:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      race:
+        type: "string"
+      price:
+        type: "number"
+      sex:
+        type: "string"
+        description: "cat gender"
+        enum:
+        - "MALE"
+        - "FEMALE"
+      birthDate:
+        type: "string"
+        format: "date"
+      comment:
+        type: "string"
+    xml:
+      name: "cat"
+      
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
